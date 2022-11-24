@@ -4,5 +4,11 @@
   },
   "index.qmd": {
     "index.html": "af07f5cf"
+  },
+  "hands-on_ex/hands-on_ex1/hands-on_ex1.qmd": {
+    "hands-on_ex1.html": "5a70ce88"
+  },
+  "hands-on_ex/hands-on_ex2/hands-on_ex2.qmd": {
+    "hands-on_ex2.html": "a82849d3"
   }
 }
