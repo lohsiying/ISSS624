@@ -189,16 +189,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#getting-the-data-into-r-environment" id="toc-getting-the-data-into-r-environment" class="nav-link" data-scroll-target="#getting-the-data-into-r-environment">3.3 Getting the Data into R Environment</a>
   <ul class="collapse">
-  <li><a href="#import-shapefile-into-r-environment" id="toc-import-shapefile-into-r-environment" class="nav-link" data-scroll-target="#import-shapefile-into-r-environment"><strong>3.3.1 Import shapefile into r environment</strong></a></li>
-  <li><a href="#import-csv-file-into-r-environment" id="toc-import-csv-file-into-r-environment" class="nav-link" data-scroll-target="#import-csv-file-into-r-environment"><strong>3.3.2 Import csv file into R environment</strong></a></li>
-  <li><a href="#performing-relational-join" id="toc-performing-relational-join" class="nav-link" data-scroll-target="#performing-relational-join"><strong>3.3.3 Performing relational join</strong></a></li>
+  <li><a href="#import-shapefile-into-r-environment" id="toc-import-shapefile-into-r-environment" class="nav-link" data-scroll-target="#import-shapefile-into-r-environment">3.3.1 Import shapefile into r environment</a></li>
+  <li><a href="#import-csv-file-into-r-environment" id="toc-import-csv-file-into-r-environment" class="nav-link" data-scroll-target="#import-csv-file-into-r-environment">3.3.2 Import csv file into R environment</a></li>
+  <li><a href="#performing-relational-join" id="toc-performing-relational-join" class="nav-link" data-scroll-target="#performing-relational-join">3.3.3 Performing relational join</a></li>
   </ul></li>
   <li><a href="#visualizing-regional-development-indicator" id="toc-visualizing-regional-development-indicator" class="nav-link" data-scroll-target="#visualizing-regional-development-indicator">3.4 Visualizing Regional Development Indicator</a></li>
   <li><a href="#computing-contiguity-spatial-weights" id="toc-computing-contiguity-spatial-weights" class="nav-link" data-scroll-target="#computing-contiguity-spatial-weights">3.5 Computing Contiguity Spatial Weights</a>
   <ul class="collapse">
-  <li><a href="#computing-queen-contiguity-based-neighbours" id="toc-computing-queen-contiguity-based-neighbours" class="nav-link" data-scroll-target="#computing-queen-contiguity-based-neighbours"><strong>3.5.1</strong> Computing (QUEEN) contiguity based neighbours</a></li>
-  <li><a href="#creating-rook-contiguity-based-neighbours" id="toc-creating-rook-contiguity-based-neighbours" class="nav-link" data-scroll-target="#creating-rook-contiguity-based-neighbours"><strong>3.5.2</strong> Creating (ROOK) contiguity based neighbours</a></li>
-  <li><a href="#visualising-contiguity-weights" id="toc-visualising-contiguity-weights" class="nav-link" data-scroll-target="#visualising-contiguity-weights"><strong>3.5.3</strong> Visualising contiguity weights</a></li>
+  <li><a href="#computing-queen-contiguity-based-neighbours" id="toc-computing-queen-contiguity-based-neighbours" class="nav-link" data-scroll-target="#computing-queen-contiguity-based-neighbours">3.5.1 Computing (QUEEN) contiguity based neighbours</a></li>
+  <li><a href="#creating-rook-contiguity-based-neighbours" id="toc-creating-rook-contiguity-based-neighbours" class="nav-link" data-scroll-target="#creating-rook-contiguity-based-neighbours">3.5.2 Creating (ROOK) contiguity based neighbours</a></li>
+  <li><a href="#visualising-contiguity-weights" id="toc-visualising-contiguity-weights" class="nav-link" data-scroll-target="#visualising-contiguity-weights">3.5.3 Visualising contiguity weights</a></li>
   </ul></li>
   <li><a href="#computing-distance-based-neighbours" id="toc-computing-distance-based-neighbours" class="nav-link" data-scroll-target="#computing-distance-based-neighbours">3.6 Computing distance based neighbours</a>
   <ul class="collapse">
@@ -268,7 +268,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="getting-the-data-into-r-environment">3.3 Getting the Data into R Environment</h2>
 <p>A geospatial data and its associated attribute table will be loaded into the R environment. The geospatial data is in ESRI shapefile format and the attribute table is in csv fomat.</p>
 <section id="import-shapefile-into-r-environment" class="level3">
-<h3 class="anchored" data-anchor-id="import-shapefile-into-r-environment"><strong>3.3.1 Import shapefile into r environment</strong></h3>
+<h3 class="anchored" data-anchor-id="import-shapefile-into-r-environment">3.3.1 Import shapefile into r environment</h3>
 <p>The following code chunk imports the Hunan shapefile into R. The imported shapefile is a <strong>simple</strong> <strong>features</strong> object of <strong>sf package</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hunan <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
@@ -286,7 +286,7 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </section>
 <section id="import-csv-file-into-r-environment" class="level3">
-<h3 class="anchored" data-anchor-id="import-csv-file-into-r-environment"><strong>3.3.2 Import csv file into R environment</strong></h3>
+<h3 class="anchored" data-anchor-id="import-csv-file-into-r-environment">3.3.2 Import csv file into R environment</h3>
 <p>In the following code chunk, imports a csv file using <em>read_csv()</em> of <strong>readr</strong> package to give an output in R dataframe class.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>hunan2012 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/Hunan_2012.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -303,7 +303,7 @@ dbl (27): avg_wage, deposite, FAI, Gov_Rev, Gov_Exp, GDP, GDPPC, GIO, Loan, ...
 </div>
 </section>
 <section id="performing-relational-join" class="level3">
-<h3 class="anchored" data-anchor-id="performing-relational-join"><strong>3.3.3 Performing relational join</strong></h3>
+<h3 class="anchored" data-anchor-id="performing-relational-join">3.3.3 Performing relational join</h3>
 <p>The code chunk updates the attribute table of <em>hunan</em>’s SpatialPolygonsDataFrame with the attribute fields of <em>hunan2012</em> dataframe. This is performed by using <em>left_join()</em> from <strong>dplyr</strong> package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hunan <span class="ot">&lt;-</span> <span class="fu">left_join</span>(hunan,hunan2012)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -333,7 +333,7 @@ dbl (27): avg_wage, deposite, FAI, Gov_Rev, Gov_Exp, GDP, GDPPC, GIO, Loan, ...
 <p>In this section, <a href="https://r-spatial.github.io/spdep/reference/poly2nb.html"><em>poly2nb()</em></a>from <strong>spdep</strong> package is used to compute the contiguity weight matrices for the study area. By default, this function builds a list of neighbours based on regions with contiguous boundaries, using the Queen criteria. This based on the argument Queen set to True by default. Setting to False will enable Rook criteria.</p>
 <p><img src="images/queen.png" class="img-fluid" width="245"></p>
 <section id="computing-queen-contiguity-based-neighbours" class="level3">
-<h3 class="anchored" data-anchor-id="computing-queen-contiguity-based-neighbours"><strong>3.5.1</strong> Computing (QUEEN) contiguity based neighbours</h3>
+<h3 class="anchored" data-anchor-id="computing-queen-contiguity-based-neighbours">3.5.1 Computing (QUEEN) contiguity based neighbours</h3>
 <p>The code chunk below is used to compute the Queen contiguity weight matrix.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>wm_q <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(hunan, <span class="at">queen=</span><span class="cn">TRUE</span>)</span>
@@ -490,7 +490,7 @@ Link number distribution:
 </div>
 </section>
 <section id="creating-rook-contiguity-based-neighbours" class="level3">
-<h3 class="anchored" data-anchor-id="creating-rook-contiguity-based-neighbours"><strong>3.5.2</strong> Creating (ROOK) contiguity based neighbours</h3>
+<h3 class="anchored" data-anchor-id="creating-rook-contiguity-based-neighbours">3.5.2 Creating (ROOK) contiguity based neighbours</h3>
 <p>The code chunk below is used to compute Rook contiguity weight matrix.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>wm_r <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(hunan, <span class="at">queen=</span><span class="cn">FALSE</span>)</span>
@@ -514,7 +514,7 @@ Link number distribution:
 <p>The summary report above shows that there are 88 area units in Hunan. Using the Rook’s method, the most connect area unit has 10 neighbours. There are two area units with only one neighbours.</p>
 </section>
 <section id="visualising-contiguity-weights" class="level3">
-<h3 class="anchored" data-anchor-id="visualising-contiguity-weights"><strong>3.5.3</strong> Visualising contiguity weights</h3>
+<h3 class="anchored" data-anchor-id="visualising-contiguity-weights">3.5.3 Visualising contiguity weights</h3>
 <p>A connectivity graph takes a point and displays a line to each neighboring point. Now the data is in polygon format, so we will need to get points in order to make our connectivity graphs. The most typical method for this will be to use polygon centroids by specifying their Latitude and Longitude. We will calculate these in the sf package before moving onto the graphs.</p>
 <p>We need the Latitude and Longitude coordinates in a separate data frame for this. To do this we will use a mapping function to apply a given function to each element of a vector and return a vector of the same length. Our input vector will be the geometry column of us.bound. Our function will be st_centroid. We will be using map_dbl variation of map from the purrr package.</p>
 <p>To get our longitude values we map the st_centroid function over the geometry column of us.bound and access the longitude value through double bracket notation [[]] and 1. This allows us to get only the longitude, which is the first value in each centroid.</p>

@@ -35,7 +35,7 @@ pacman::p_load(sf, spdep, tmap, tidyverse)
 
 A geospatial data and its associated attribute table will be loaded into the R environment. The geospatial data is in ESRI shapefile format and the attribute table is in csv fomat.
 
-### **3.3.1 Import shapefile into r environment**
+### 3.3.1 Import shapefile into r environment
 
 The following code chunk imports the Hunan shapefile into R. The imported shapefile is a **simple** **features** object of **sf package**.
 
@@ -44,7 +44,7 @@ hunan <- st_read(dsn = "data/geospatial",
                  layer = "Hunan")
 ```
 
-### **3.3.2 Import csv file into R environment**
+### 3.3.2 Import csv file into R environment
 
 In the following code chunk, imports a csv file using *read_csv()* of **readr** package to give an output in R dataframe class.
 
@@ -52,7 +52,7 @@ In the following code chunk, imports a csv file using *read_csv()* of **readr** 
 hunan2012 <- read_csv("data/aspatial/Hunan_2012.csv")
 ```
 
-### **3.3.3 Performing relational join**
+### 3.3.3 Performing relational join
 
 The code chunk updates the attribute table of *hunan*'s SpatialPolygonsDataFrame with the attribute fields of *hunan2012* dataframe. This is performed by using *left_join()* from **dplyr** package.
 
@@ -79,7 +79,7 @@ In this section, [*poly2nb()*](https://r-spatial.github.io/spdep/reference/poly2
 
 ![](images/queen.png){width="245"}
 
-### **3.5.1** Computing (QUEEN) contiguity based neighbours
+### 3.5.1 Computing (QUEEN) contiguity based neighbours
 
 The code chunk below is used to compute the Queen contiguity weight matrix.
 
@@ -128,7 +128,7 @@ To display the complete weight matrix, *str()* can be used.
 str(wm_q)
 ```
 
-### **3.5.2** Creating (ROOK) contiguity based neighbours
+### 3.5.2 Creating (ROOK) contiguity based neighbours
 
 The code chunk below is used to compute Rook contiguity weight matrix.
 
@@ -139,7 +139,7 @@ summary(wm_r)
 
 The summary report above shows that there are 88 area units in Hunan. Using the Rook's method, the most connect area unit has 10 neighbours. There are two area units with only one neighbours.
 
-### **3.5.3** Visualising contiguity weights
+### 3.5.3 Visualising contiguity weights
 
 A connectivity graph takes a point and displays a line to each neighboring point. Now the data is in polygon format, so we will need to get points in order to make our connectivity graphs. The most typical method for this will be to use polygon centroids by specifying their Latitude and Longitude. We will calculate these in the sf package before moving onto the graphs.
 
