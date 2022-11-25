@@ -221,6 +221,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#spatial-window-average" id="toc-spatial-window-average" class="nav-link" data-scroll-target="#spatial-window-average">3.8.3 Spatial window average</a></li>
   <li><a href="#spatial-window-sum" id="toc-spatial-window-sum" class="nav-link" data-scroll-target="#spatial-window-sum">3.8.4 Spatial window sum</a></li>
   </ul></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">3.9 Reference</a></li>
   </ul>
 </nav>
     </div>
@@ -571,7 +572,7 @@ Link number distribution:
 </section>
 <section id="computing-distance-based-neighbours" class="level2">
 <h2 class="anchored" data-anchor-id="computing-distance-based-neighbours">3.6 Computing distance based neighbours</h2>
-<p>In this section, distance-based weight matrices will be derived This is performed by using <em>dnearneigh()</em> from <strong>spdep</strong> package.</p>
+<p>In this section, distance-based weight matrices will be derived. This is performed by using <em>dnearneigh()</em> from <strong>spdep</strong> package.</p>
 <p>The function identifies neighbours of region points by Euclidean distance in the metric of the points between lower (greater than or equal to) and upper (less than or equal to) bounds. If unprojected coordinates are used and either specified in the coordinates object x or with x as a two column matrix and longlat=TRUE, great circle distances in <strong>km</strong> will be calculated assuming the WGS84 reference ellipsoid.</p>
 <section id="determine-the-cut-off-distance" class="level3">
 <h3 class="anchored" data-anchor-id="determine-the-cut-off-distance">3.6.1 Determine the cut-off distance</h3>
@@ -1726,9 +1727,13 @@ B 88 7744 448 896 10224</code></pre>
 <p><img src="hands-on_ex3_files/figure-html/unnamed-chunk-63-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="reference" class="level2">
+<h2 class="anchored" data-anchor-id="reference">3.9 Reference</h2>
+<p>[1] <a href="https://arxiv.org/pdf/2209.11836.pdf">Reference for Rook and Queen contiguity diagram</a></p>
+
+
 </section>
 
 </main> <!-- /main -->

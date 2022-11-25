@@ -564,6 +564,6 @@ w_sum_gdppc <- qtm(hunan, "w_sum GDPPC")
 tmap_arrange(gdppc, w_sum_gdppc, asp=1, ncol=2)
 ```
 
-## 3.9  Reference
+## 3.9 Reference
 
 \[1\] [Reference for Rook and Queen contiguity diagram](https://arxiv.org/pdf/2209.11836.pdf)

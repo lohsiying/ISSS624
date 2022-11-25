@@ -295,8 +295,6 @@ abline(v=0.69,
 text(0.73, 180, "Geary's C value = 0.69", cex = 0.8, col='blue')
 ```
 
-w
-
 ## 4.5 Spatial Correlogram
 
 Spatial correlograms are great to examine patterns of spatial autocorrelation in the data or model residuals. They show how correlated are pairs of spatial observations as the distance (lag) between them increases - they are plots of some index of autocorrelation (Moran's I or Geary's C) against distance. Spatial correlograms serve as very useful exploratory and descriptive tool.
@@ -323,9 +321,12 @@ print(MI_corr)
 In the following, we calculate the mean distance of the lag orders 1 to 6. We use **nblag()** function which creates higher order neighbour lists, where higher order neighbours are only lags links from each other on the graph described by the input neighbours list. \[3\]
 
 ```{r}
-#nb6 <- nblag(wm_q, 6)
-#correlogram_bins <- sapply(nb6, function(x) mean(unlist(nbdists(x,coords, longlat = TRUE))))
-#correlogram_bins
+nb6 <- nblag(wm_q, 6)
+longitude <- map_dbl(hunan$geometry, ~st_centroid(.x)[[1]])
+latitude <- map_dbl(hunan$geometry, ~st_centroid(.x)[[2]])
+coords <- cbind(longitude, latitude)
+correlogram_bins <- sapply(nb6, function(x) mean(unlist(nbdists(x,coords, longlat = TRUE))))
+correlogram_bins
 ```
 
 From the correlogram and the analysis report, we can see for lag 1 and lag 2 (counties within distances of 55.87km and 106.63km apart respectively), the Moran's I values is positive and p-value is \< 0.05 (statistically significant). This indicate that the GDPPC are spatially clustered for lag 1 and lag2.
