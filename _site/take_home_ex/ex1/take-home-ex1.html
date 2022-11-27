@@ -146,29 +146,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercises" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hands-on Exercises</a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercises">    
         <li>
-    <a class="dropdown-item" href="../../hands-on_ex/hands-on_ex1/hands-on_ex1.html">
- <span class="dropdown-text">Hands-on Exercise 1</span></a>
+    <a class="dropdown-item" href="../../hands_on_ex/hands_on_ex1/hands-on_ex1.html">
+ <span class="dropdown-text">Hands-on Exercise 1A</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../hands-on_ex/hands-on_ex2/hands-on_ex2.html">
+    <a class="dropdown-item" href="../../hands_on_ex/hands_on_ex1b/hands_on_ex1b.html">
+ <span class="dropdown-text">Hands-on Exercise 1B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../hands_on_ex/hands_on_ex2/hands_on_ex2.html">
  <span class="dropdown-text">Hands-on Exercise 2</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../hands-on_ex/hands-on_ex3/hands-on_ex3.html">
- <span class="dropdown-text">Hands-on Exercise 3</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../hands-on_ex/hands-on_ex4/hands-on_ex4.html">
- <span class="dropdown-text">Hands-on Exercise 4</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercises" role="button" data-bs-toggle="dropdown" aria-expanded="false">Take-home Exercises</a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercises">    
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-in-class-exercises" role="button" data-bs-toggle="dropdown" aria-expanded="false">In-Class Exercises</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercises">    
         <li>
-    <a class="dropdown-item" href="../../take_home_ex/ex1/take-home-ex1.html">
- <span class="dropdown-text">Take-home Exercise 1</span></a>
+    <a class="dropdown-item" href="../../in_class_ex/ex1/in-class-ex1.html">
+ <span class="dropdown-text">In-Class Exercise 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../in_class_ex/ex2/in-class-ex2.html">
+ <span class="dropdown-text">In-Class Exercise 2</span></a>
   </li>  
     </ul>
   </li>
@@ -760,8 +760,8 @@ alternative hypothesis: greater</code></pre>
 <p>A positive value for I indicates that a feature has neighboring features with similarly high or low attribute values; this feature is part of a cluster. A negative value for I indicates that a feature has neighboring features with dissimilar values; this feature is an outlier. In either instance, the p-value for the feature must be small enough for the cluster or outlier to be considered statistically significant.</p>
 <section id="computing-local-morans-i" class="level3">
 <h3 class="anchored" data-anchor-id="computing-local-morans-i">7.1 Computing local Moran’s I</h3>
-<p>To compute local Moran's I, the <a href="https://r-spatial.github.io/spdep/reference/localmoran.html"><em>localmoran()</em></a> function of <strong>spdep</strong> will be used. It computes <em>Ii</em> values, given a set of <em>zi</em> values and a listw object providing neighbour weighting information for the polygon associated with the zi values.</p>
-<p>The code chunks below are used to compute local Moran's I of <em>values for proportion of non-functional water points</em> at the LGA level.</p>
+<p>To compute local Moran’s I, the <a href="https://r-spatial.github.io/spdep/reference/localmoran.html"><em>localmoran()</em></a> function of <strong>spdep</strong> will be used. It computes <em>Ii</em> values, given a set of <em>zi</em> values and a listw object providing neighbour weighting information for the polygon associated with the zi values.</p>
+<p>The code chunks below are used to compute local Moran’s I of <em>values for proportion of non-functional water points</em> at the LGA level.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>fips <span class="ot">&lt;-</span> <span class="fu">order</span>(nga_wp<span class="sc">$</span>shapeName)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>localMI <span class="ot">&lt;-</span> <span class="fu">localmoran</span>(nga_wp<span class="sc">$</span>pct_non_functional, bwm)</span>

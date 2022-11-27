@@ -408,9 +408,9 @@ A positive value for I indicates that a feature has neighboring features with si
 
 ### 7.1 Computing local Moran's I
 
-To compute local Moran\'s I, the [*localmoran()*](https://r-spatial.github.io/spdep/reference/localmoran.html) function of **spdep** will be used. It computes *Ii* values, given a set of *zi* values and a listw object providing neighbour weighting information for the polygon associated with the zi values.
+To compute local Moran's I, the [*localmoran()*](https://r-spatial.github.io/spdep/reference/localmoran.html) function of **spdep** will be used. It computes *Ii* values, given a set of *zi* values and a listw object providing neighbour weighting information for the polygon associated with the zi values.
 
-The code chunks below are used to compute local Moran\'s I of *values for proportion of non-functional water points* at the LGA level.
+The code chunks below are used to compute local Moran's I of *values for proportion of non-functional water points* at the LGA level.
 
 ```{r eval = FALSE}
 fips <- order(nga_wp$shapeName)
