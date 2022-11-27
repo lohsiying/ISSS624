@@ -209,7 +209,7 @@ write_rds(nga_wp, "geodata/nga_wp.rds")
 
 We will visualise the spatial distribution of function and non-functional water points using a choropleth. This is performed using the code chunk below.
 
-```{r fig.height = 5, fig.width = 5}
+```{r fig.height = 8, fig.width = 8}
 nga_wp <- read_rds("geodata/nga_wp.rds")
 total <- qtm(nga_wp, "total_wp")
 wp_functional <- qtm(nga_wp, "wp_functional")
