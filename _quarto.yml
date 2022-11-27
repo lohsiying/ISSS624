@@ -1,20 +1,24 @@
 project:
   type: website
-
+ 
 website:
   title: "ISSS624"
   navbar:
     left:
       - text: Hands-on Exercises
         menu: 
-          - text: Hands-on Exercise 1
-            href: hands-on_ex\hands-on_ex1\hands-on_ex1.qmd
+          - text: Hands-on Exercise 1A
+            href: hands_on_ex\hands_on_ex1\hands-on_ex1.qmd
+          - text: Hands-on Exercise 1B
+            href: hands_on_ex\hands_on_ex1b\hands_on_ex1b.qmd
           - text: Hands-on Exercise 2
-            href: hands-on_ex\hands-on_ex2\hands-on_ex2.qmd
-          - text: Hands-on Exercise 3
-            href: hands-on_ex\hands-on_ex3\hands-on_ex3.qmd
-          - text: Hands-on Exercise 4
-            href: hands-on_ex\hands-on_ex4\hands-on_ex4.qmd
+            href: hands_on_ex\hands_on_ex2\hands_on_ex2.qmd
+      - text: In-Class Exercises
+        menu: 
+          - text: In-Class Exercise 1
+            href: in_class_ex\ex1\in-class-ex1.qmd
+          - text: In-Class Exercise 2
+            href: in_class_ex\ex2\in-class-ex2.qmd
     right:
       - href: index.qmd
         text: Home
@@ -27,4 +31,3 @@ format:
     toc: true
 
 editor: visual
-
