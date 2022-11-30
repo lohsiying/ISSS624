@@ -1215,7 +1215,11 @@ In general, the 2 LISA maps agree with each other, where:
 
 An exception is observed at the top right most of the map where cold spots are observed in both the maps show LGAs that are low-low. Upon further review of the data, it turns out that a number of the LGAs here (Monguno, Jere, Mafa, Dikwa, Ngala, and Bama) have the status of all their water points as unknown. Hence, resulting in both plots reflecting these LGAs as low-low.
 
-In addition, it can also be observed that in the North West and North East regions, there are more high-high LGAs (red) in functional water points map compared to the number of low-low LGAs (dark blue) in the non-functional water points map. Nonethless, it is a good sign that there are more spatial clusters of LGAs with a high proportion of functional water points in these zones.
+In addition, it can also be observed that in the North West and North East regions, there are more high-high LGAs (red) in functional water points map compared to the number of low-low LGAs (dark blue) in the non-functional water points map. Nonetheless, it is a good sign that there are more spatial clusters of LGAs with a high proportion of functional water points in these zones.
+
+When comparing these 2 plots, it is also apparent that understanding the non-functional water points clustering is not sufficient to get the full picture of which LGA clusters do not have access to satisfactory water points. In particular, in the South East zone - while the non-functional map does not have much significant LGAs, in the functional map, we could see that there are significant numbers of LGAs that are low-low (blue, with reference below) which implies that there is a likely cluster of LGAs with low proportion of functioning water points.
+
+![](images/paste-6245B113.png)
 
 ## 11 Gi statistics
 
@@ -1344,7 +1348,11 @@ It can be observed that the 2 maps agree with each other in the top of the North
 
 The results above also agree with the LISA map in the following:
 
--   There is are hotspots in the left and right ends of the South South zone for the non-functional water points map (which means high concentration of LGAs with high proportion of non-functioning water points at these South South areas).
+-   There are hotspots in the left and right ends of the South South zone for the non-functional water points map (which means high concentration of LGAs with high proportion of non-functioning water points at these South South areas).
+
+-   There are hotspots in the North West and North East zones for the functional water point map - high concentration of LGAs with high proportion of functioning water points at these areas.
+
+-   There are coldspots in the South East zone for functional water point map - high concentration of LGAs with low proportion of functioning water points at these areas.
 
 Similar to the LISA maps comparison, an exception is observed at the top right most of the map where cold spots are observed in both the maps show coldspots. It turns out that a number of the LGAs here (Monguno, Jere, Mafa, Dikwa, Ngala, and Bama) have the status of all their water points as unknown. Hence, resulting in both plots reflecting coldspots.
 
