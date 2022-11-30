@@ -442,7 +442,7 @@ tmap_arrange(localMI.map, pvalue.map, asp=1, ncol=2)
 
 From the plots above, there are 11 counties with p-values \< 0.05 (statistically significant). In the next section, we will further analyse the type of spatial distribution for GDPPC values for these counties.
 
-# 7  Creating a LISA Cluster Map
+# 7 Creating a LISA Cluster Map
 
 The LISA Cluster Map shows the significant locations color coded by type of spatial autocorrelation. The first step before we can generate the LISA cluster map is to plot the Moran scatterplot.
 
@@ -479,6 +479,8 @@ nci2 <- moran.plot(hunan$Z.GDPPC, rswm_q,
                    xlab="z-GDPPC 2012", 
                    ylab="Spatially Lag z-GDPPC 2012")
 ```
+
+However, the Moran scatterplot has one drawback in that it does not indicate whether the LGAs identified are significant or not. As such, we will work on the LISA cluster map.
 
 ## 7.3 Preparing LISA map classes
 
