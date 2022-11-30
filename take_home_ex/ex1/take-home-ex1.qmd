@@ -1241,7 +1241,7 @@ nga_wp_filter.gi <- cbind(nga_wp_filter, as.matrix(gi)) %>%
 Next, we will calculate the p-values using the `pnorm()` from base R. We define lower.tail to be False because we want to evaluate for probability(*X \> x*) instead of probability(*X \<= x*). `pnorm()` is used because Gi statistics is actually a z-score, which implies that it comes from a normal distribution and has a mean and standard deviation of 0 and 1 respectively. \[6\] In the following for `q`, we used 2 multiply by `abs()` because there are both positive and negative values in gi statistics and we want to test for both of these values.
 
 ```{r}
-pval = pnorm(q = 2*abs(gi), lower.tail = FALSE)
+pval = 2*pnorm(q = abs(gi), lower.tail = FALSE)
 ```
 
 We then need to adjust the p-values using `p.adjustSP()` to address connectivity with neighbours, i.e. spatial association. We selected the method to adjust the p-values as bonferroni.\[6\] The Bonferroni correction adjusts p-values because of the increased risk of a type I error when making multiple statistical tests - since we are using each LGA multiple times (i.e. one LGA can be neighbours of differnet LGAs and hence are used in multiple statistical tests).
@@ -1299,7 +1299,7 @@ nga_wp_filter.gifunc <- cbind(nga_wp_filter, as.matrix(gifunc)) %>%
 Next, we will calculate the p-values using the `pnorm()` and then adjust them using `p.adjustSP()` to address connectivity with neighbours, i.e. spatial association.
 
 ```{r}
-pvalfunc = pnorm(q = 2*abs(gifunc), lower.tail = FALSE)
+pvalfunc = 2*pnorm(q = abs(gifunc), lower.tail = FALSE)
 pvals_bonfunc = p.adjustSP(p = pvalfunc, nb = knn8, method = "bonferroni")
 ```
 
@@ -1336,15 +1336,23 @@ We will plot the Gi maps for non-functional water points and functional water po
 tmap_arrange(Gimap, Gimapfunc, asp=1, ncol=2)
 ```
 
-In general, the 2 maps agree with each other, where
+It can be observed that the 2 maps agree with each other in the top of the North East region where
 
 -   Hotspots in the non-functional water points plot should correspond with coldspots in the functional water points map.
 
 -   Likewise, coldspots in the non-functional water points plot should correspond with hotspots in the functional water points map.
 
+The results above also agree with the LISA map in the following:
+
+-   There is are hotspots in the left and right ends of the South South zone for the non-functional water points map (which means high concentration of LGAs with high proportion of non-functioning water points at these South South areas).
+
 Similar to the LISA maps comparison, an exception is observed at the top right most of the map where cold spots are observed in both the maps show coldspots. It turns out that a number of the LGAs here (Monguno, Jere, Mafa, Dikwa, Ngala, and Bama) have the status of all their water points as unknown. Hence, resulting in both plots reflecting coldspots.
 
-Another interesting area is the leftmost of the North West zone where hotspots are identified in the non-functional map but comparatively less (just 1 LGA) is identified as coldspot in the functional water point map.
+With reference to the images below, it is interesting to note that LISA map is able to point out the outliers, i.e. high-low areas in orange (within North West zone). At the same LGAs, Gi map does not show any clustering. This is as expected because when both the high and low values cluster, they tend to cancel each other out (as discussed in Section 11).
+
+| LISA map for non-functional water points | Gi map for non-functional water points |
+|------------------------------------------|----------------------------------------|
+| ![](images/paste-381EDEDD.png)           | ![](images/paste-4213DCBB.png)         |
 
 ## 12 References
 
