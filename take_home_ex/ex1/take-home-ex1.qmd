@@ -951,7 +951,7 @@ We can observe several spatial clusters for the *proportion of non-functional wa
 
 In addition, there are also LGAs with negative local Moran's I, including Ika North East and Kaduna South. The geographical regions are identified in accordance to the 6 geopolitical zones identified in the following diagram.
 
-![](images/Nigeria-01.png){width="459"}
+![](images/sixzones.jpg)
 
 image reference \[3\]
 
@@ -1111,15 +1111,15 @@ tmap_arrange(nonfunc, LISA, asp=1, ncol=2)
 
 From the LISA map, the following observations can be made:
 
-+---------------------------------------------+---------------------------------------------------------------------------------------------------------+
-| LISA Map region                             | Observations                                                                                            |
-+=============================================+=========================================================================================================+
-| ![](images/paste-A8A6808F.png){width="279"} | -   High number of LGAs belonging to the low-low quadrant found in both North East and North West zones |
-|                                             |                                                                                                         |
-|                                             | -   A few outlier LGAs belonging to high-low quadrant, more of such found in North West                 |
-|                                             |                                                                                                         |
-|                                             | -   2 LGAs were belonging to high-high quadrant (North East)                                            |
-+---------------------------------------------+---------------------------------------------------------------------------------------------------------+
++------------------------------+---------------------------------------------------------------------------------------------------------+
+| LISA Map region              | Observations                                                                                            |
++==============================+=========================================================================================================+
+| ![](images/North%20East.png) | -   High number of LGAs belonging to the low-low quadrant found in both North East and North West zones |
+|                              |                                                                                                         |
+|                              | -   A few outlier LGAs belonging to high-low quadrant, more of such found in North West                 |
+|                              |                                                                                                         |
+|                              | -   2 LGAs were belonging to high-high quadrant (North East)                                            |
++------------------------------+---------------------------------------------------------------------------------------------------------+
 
 **Analysis**
 
@@ -1127,29 +1127,29 @@ North East zone has a clear majority in the ethnic/regious group, with the major
 
 North West has a similar demographic, populated by Hausa and Fulani tribes. The similar demographics could be the likely reason why a significant low-low cluster is observed in North West. However, in the North West, we could see higher number of outlier LGAs classified as high-low quadrant, reflecting that there are some LGAs with high *proportion of non-functional water points* surrounded by LGAs with low *proportion of non-functional water points*. This is aligned with the plot for proportion of non-functional water points where we observe more LGAs in North West zone that are orange in colour (higher proportion of non-functional water points) compared to the surrounding LGAs that are yellow in colour (lower proportion of non-functional water points).
 
-+---------------------------------------------+----------------------------------------------------------------------------------------+
-| LISA Map region                             | Observations                                                                           |
-+=============================================+========================================================================================+
-| ![](images/paste-0AD6F6AC.png){width="288"} | South South zone:                                                                      |
-|                                             |                                                                                        |
-|                                             | -   Significant clusters of high-high                                                  |
-|                                             |                                                                                        |
-|                                             | -   Pockets of outliers (low-high)                                                     |
-|                                             |                                                                                        |
-|                                             | South East zone:                                                                       |
-|                                             |                                                                                        |
-|                                             | -   Some LGAs in low-low quadrant and some LGAs in outliers that are high-low quadrant |
-|                                             |                                                                                        |
-|                                             | South West zone:                                                                       |
-|                                             |                                                                                        |
-|                                             | -   Cluster of high-high observed in area along the border shared with South South     |
-|                                             |                                                                                        |
-|                                             | North Central zone:                                                                    |
-|                                             |                                                                                        |
-|                                             | -   Cluster of high-high observed in area closest to South South                       |
-|                                             |                                                                                        |
-|                                             | -   Just north of this cluster, there is a region of outliers of low-high              |
-+---------------------------------------------+----------------------------------------------------------------------------------------+
++----------------------------+----------------------------------------------------------------------------------------+
+| LISA Map region            | Observations                                                                           |
++============================+========================================================================================+
+| ![](images/SouthSouth.png) | South South zone:                                                                      |
+|                            |                                                                                        |
+|                            | -   Significant clusters of high-high                                                  |
+|                            |                                                                                        |
+|                            | -   Pockets of outliers (low-high)                                                     |
+|                            |                                                                                        |
+|                            | South East zone:                                                                       |
+|                            |                                                                                        |
+|                            | -   Some LGAs in low-low quadrant and some LGAs in outliers that are high-low quadrant |
+|                            |                                                                                        |
+|                            | South West zone:                                                                       |
+|                            |                                                                                        |
+|                            | -   Cluster of high-high observed in area along the border shared with South South     |
+|                            |                                                                                        |
+|                            | North Central zone:                                                                    |
+|                            |                                                                                        |
+|                            | -   Cluster of high-high observed in area closest to South South                       |
+|                            |                                                                                        |
+|                            | -   Just north of this cluster, there is a region of outliers of low-high              |
++----------------------------+----------------------------------------------------------------------------------------+
 
 Most of the LGAs classified in the high-high quadrant either lie with the South South zone or are found near the South South zone of Nigeria. Most significantly, on the right of South South zone, the cluster is almost entirely high-high. The South South zone is the economic mainstream of the country as it is the location of the country's crude oil deposit and crude oil production is the major economic activity of the region. \[4\] As urban areas are concentrated in the South due to the higher volume of economic activities compared to the other zones in Nigeria, large scale migration is likely to put pressure on existing water points infrastructure \[5\], resulting in significant clusters of high-high *proportion of non-functional water points* found in this zone.
 
