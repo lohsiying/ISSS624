@@ -1360,11 +1360,9 @@ Similar to the LISA maps comparison, an exception is observed at the top right m
 
 With reference to the images below, it is interesting to note that LISA map is able to point out the outliers, i.e. high-low areas in orange (within North West zone). At the same LGAs, Gi map does not show any clustering. This is as expected because when both the high and low values cluster, they tend to cancel each other out (as discussed in Section 11).
 
-+------------------------------------------+----------------------------------------+
 | LISA map for non-functional water points | Gi map for non-functional water points |
-+==========================================+========================================+
+|------------------------------------------|----------------------------------------|
 | ![](images/paste-381EDEDD.png)           | ![](images/paste-4213DCBB.png)         |
-+------------------------------------------+----------------------------------------+
 
 ## 12 References
 
