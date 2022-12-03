@@ -103,7 +103,7 @@ summary(ict)
 
 We can see that there a total of eleven fields and 55 observations in the tibble data.frame.
 
-### 4.3 Deriving new variables uing **dplyr** package
+### 4.3 Deriving new variables using **dplyr** package
 
 The data in *ict* provides the count of the number of households. Such units of measurement is directly biased by the underlying total number of households in the town. In general, the townships with relatively higher total number of households will also have higher number of households owning radio, TV etc.
 
