@@ -8,21 +8,13 @@ editor: visual
 
 ## 1 Overview
 
-In this in-class exercise, we will discuss . This is a continuation from the topics discussed in hands-on exercise 3.
-
-### 1.1 Learning Outcome
-
-By the end of this hands-on exercise, the following can be achieved:
-
--   to convert GIS polygon data into R's simple feature data.frame by using appropriate functions of **sf** package of R;
-
--   
+In this in-class exercise, we will discuss ClustGeo method for spatially constrained clustering (discussed in Section 9). This is a continuation from the topics discussed in hands-on exercise 3. For easier reading, Sections from hands-on exercise 3 is also added here.
 
 ## 2 Getting Started
 
 ### 2.1 The analytical question
 
-In geobusiness and spatial policy, it is a common practice to delineate the market or planning area into homogeneous regions by using multivariate data. In this hands-on exercise, we are interested to delineate [Shan State](https://en.wikipedia.org/wiki/Shan_State), [Myanmar](https://en.wikipedia.org/wiki/Myanmar) into homogeneous regions by using the penetration of multiple Information and Communication Technology (ICT) measures, namely: Radio, Television, Landl line ohone, Mobile phone, Computer, and Internet at home.
+In geobusiness and spatial policy, it is a common practice to delineate the market or planning area into homogeneous regions by using multivariate data. In this hands-on exercise, we are interested to delineate [Shan State](https://en.wikipedia.org/wiki/Shan_State), [Myanmar](https://en.wikipedia.org/wiki/Myanmar) into homogeneous regions by using the penetration of multiple Information and Communication Technology (ICT) measures, namely: Radio, Television, Land line phone, Mobile phone, Computer, and Internet at home.
 
 ## 3 The Data
 
@@ -586,9 +578,9 @@ In this section, we will derive spatially constrained cluster by using [*skater(
 
 ### 8.1 Converting data into SpatialPolygonsDataFrame
 
-First, we will need to convert `shan_sf` into a SpatialPolygonsDataFrame. This is because SKATER function only support **sp** objects such as SpatialPolygonDataFrame.
+First, we will need to convert `shan_sf` into a SpatialPolygonsDataFrame. This is because SKATER function only supports **sp** objects such as SpatialPolygonDataFrame.
 
-The code chunk below uses [*as_Spatial()*](https://r-spatial.github.io/sf/reference/coerce-methods.html) of **sf** package to convert *shan_sf* into s SpatialPolygonDataFrame called *shan_sp*.
+The code chunk below uses [*as_Spatial()*](https://r-spatial.github.io/sf/reference/coerce-methods.html) of **sf** package to convert *shan_sf* into a SpatialPolygonDataFrame called *shan_sp*.
 
 ```{r}
 shan_sp <- as_Spatial(shan_sf)
@@ -603,7 +595,7 @@ shan.nb <- poly2nb(shan_sp)
 summary(shan.nb)
 ```
 
-We will plot the neighbours list on shan_sp by using the code chunk below. We will first plot the community area boundaries. It is important to first plot the area boundaries as the they extend further than the network graph. If done otherwise, some of the boundaries will be clipped. We then plot the neighbour list object, with coordinates applied to the original SpatialPolygonDataFrame (Shan state township boundaries) to extract the centroids of the polygons. These are used as the nodes for the graph representation. We also set the color to blue and specify add=TRUE to plot the network on top of the boundaries.
+We will plot the neighbours list in shan_sp by using the code chunk below. We will first plot the community area boundaries. It is important to first plot the area boundaries as the they extend further than the network graph. If done otherwise, some of the boundaries will be clipped. We then plot the neighbour list object, with coordinates applied to the original SpatialPolygonDataFrame (Shan state township boundaries) to extract the centroids of the polygons. These are used as the nodes for the graph representation. We also set the color to blue and specify add=TRUE to plot the network on top of the boundaries.
 
 ```{r fig.height = 6, fig.width = 6}
 plot(shan_sp, 
@@ -744,7 +736,7 @@ shan_sf_spatialcluster <- cbind(shan_sf_cluster, as.factor(groups_mat)) %>%
 qtm(shan_sf_spatialcluster, "SP_CLUSTER")
 ```
 
-For easy comparison, it is etter to place both the hierarchical clustering and spatially constrained hierarchical clustering maps next to each other.
+For easy comparison, it is better to place both the hierarchical clustering and spatially constrained hierarchical clustering maps next to each other.
 
 ```{r}
 hclust.map <- qtm(shan_sf_cluster,
@@ -767,9 +759,9 @@ In this section, we will use functions provided in **ClustGeo** package to perfo
 
 ### 9.1 Ward-like hierarchical clustering: ClustGeo
 
-ClustGeo package provides function called `hclustgeo()` to perform a typical Ward-like hierarchical clustering just like `hclust()` used in previous section.
+ClustGeo package provides function called `hclustgeo()` to perform a typical Ward-like hierarchical clustering just like `hclust()` used in the previous section.
 
-To perform non-spatially constrained hierarchical clustering, we only need to provide the function a dissimilarity matrix as shown in the code chunk below.
+To perform non-spatially constrained hierarchical clustering, we only need to provide a dissimilarity matrix to the function as shown in the code chunk below.
 
 ```{r}
 nongeo_cluster <- hclustgeo(proxmat)
@@ -809,11 +801,19 @@ distmat <- as.dist(dist)
 
 Notice that `as.dist()` is used to convert the data frame into matrix.
 
-Next, `choicealpha()` will be used to determine a suitable value for the mixing parameter alpha as shown in the code chunk below.
+Next, `choicealpha()` will be used to determine a suitable value for the mixing parameter alpha as shown in the code chunk below. It uses both d0 distance (attribute homogeneity used in hierarchical clustering) as well as d1 contiguity matrix (spatial homogeneity). In hierarchical clustering, alpha value is 0 which is why only attribute space is considered and no spatial relationship is considered. Alpha value ranges from 0 to 1. At alpha = 1, only spatial homogeneity is considered (no consideration is given to attribute homogeneity).
+
+In the following, we define the incremental value for alpha to be evaluated is 0.1.
 
 ```{r}
 cr <- choicealpha(proxmat, distmat, range.alpha = seq(0, 1, 0.1), K=6, graph = TRUE)
 ```
+
+Two plots are given, the first graph shows the non-normalised result and the second graph shows the normalised result. The normalised graph should be used when there is significant difference in the range of values (for attribute distance and spatial relationship).
+
+We can see that when we increase the value of alpha, the black line decreases - implying that the attribute homogeneity is being compromised.
+
+We can also see that as we increase the alpha value from 0.1 to 0.2, the spatial homogeneity increases significantly from 0.3 to 0.6. Even as we increase the alpha value to 0.3, we only compromise the attribute homogeneity slightly as we continue to improve on spatial homogeneity.
 
 With reference to the graphs above, alpha = 0.3 will be used as shown in the code chunk below.
 
@@ -821,19 +821,18 @@ With reference to the graphs above, alpha = 0.3 will be used as shown in the cod
 clustG <- hclustgeo(proxmat, distmat, alpha = 0.3)
 ```
 
-Next, `cutree()` is used to derive the cluster objecct.
+Next, `cutree()` is used to derive the cluster object.
 
 ```{r}
 groups <- as.factor(cutree(clustG, k=6))
 ```
 
-We will then join back the group list with shan_sf polygon feature data frame by using the code chun below.
+We will then join back the group list with shan_sf polygon feature data frame by using the code chunk below.
 
 ```{r}
 shan_sf_Gcluster <- cbind(shan_sf, as.matrix(groups)) %>%
   rename(`CLUSTER` = `as.matrix.groups.`)
 ```
-
 
 We can not plot the map of the newly delineated spatially constrained clusters.
 
