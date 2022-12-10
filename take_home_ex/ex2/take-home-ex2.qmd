@@ -135,7 +135,7 @@ write_rds(wp,
 
 We will first sort the names of the LGAs in alphabetical order using `sort()`. We will then use `duplicated()` to retrieve all the shapeName that is duplicated and store them in a list. \[Concise code chunk is adapted from Reference 2\]
 
-```{r, eval = FALSE}
+```{r}
 nga_sf <- read_rds("geodata/nga_sf.rds")
 nga_sf <- (nga_sf[order(nga_sf$shapeName), ])
 duplicate_area <- nga_sf$shapeName[nga_sf$shapeName %in%
@@ -145,7 +145,7 @@ duplicate_area
 
 We will add 2 columns for longitude and latitude which we will use to check the LGA names for the duplicated rows using [latlong.net](https://www.latlong.net/Show-Latitude-Longitude.html). The following code chunk adds columns for longitude and latitude.
 
-```{r, eval = FALSE}
+```{r}
 nga_sf$longitude <- map_dbl(nga_sf$geometry, ~st_centroid(.x)[[1]])
 nga_sf$latitude <- map_dbl(nga_sf$geometry, ~st_centroid(.x)[[2]])
 ```
@@ -168,7 +168,7 @@ Based on the results from [latlong.net](https://www.latlong.net/Show-Latitude-Lo
 
 We will then rectify the incorrect names in *nga* table by accessing the relevant rows by their indexes as shown in the following code chunk.
 
-```{r, eval = FALSE}
+```{r}
 nga_sf$shapeName[c(94,95,304,305,355,356,519,546,547,693,694)] <- c(
                                "Bassa (Kogi)", "Bassa (Plateau)",
                                "Ifelodun (Kwara)", "Ifelodun (Osun)",
@@ -180,7 +180,7 @@ nga_sf$shapeName[c(94,95,304,305,355,356,519,546,547,693,694)] <- c(
 
 We will then check if all duplicated area names have been successfully rectified. We perform this by checking if there is anymore duplicated records using `duplicated()`.
 
-```{r, eval = FALSE}
+```{r}
 nga_sf$shapeName[nga_sf$shapeName %in% nga_sf$shapeName[duplicated(nga_sf$shapeName)] ]
 ```
 
@@ -188,7 +188,7 @@ From the results, we can see that there is no more duplicated names observed.
 
 We then remove the columns we have just created to assist us in renaming the LGAs using the following code chunk.
 
-```{r, eval = FALSE}
+```{r}
 nga_sf <- nga_sf[-c(7:8)]
 ```
 
@@ -784,49 +784,49 @@ heatmaply(normalize(nga_wp_mat),
 
 We noticed several characteristics of the clusters (on going down the dendrogram):
 
-+---------+---------------------+--------------------------------------------+
-| Cluster | Color on dendrogram | Summary of key characteristics             |
-+=========+=====================+============================================+
-| 1       | Dark Pink           | -   Low pct_pay                            |
-|         |                     |                                            |
-|         |                     | -   High pct_crucial                       |
-+---------+---------------------+--------------------------------------------+
-| 2       | Purple              | -   Moderate to high pct_nonfunctional     |
-|         |                     |                                            |
-|         |                     | -   Low pct_functional                     |
-+---------+---------------------+--------------------------------------------+
-| 3       | Blue                | -   Moderate to high pct_nonfunctional     |
-|         |                     |                                            |
-|         |                     | -   Low pct_lowusage                       |
-|         |                     |                                            |
-|         |                     | -   High pct_crucial                       |
-+---------+---------------------+--------------------------------------------+
-| 4       | Dark green          | -   High pct_functional                    |
-|         |                     |                                            |
-|         |                     | -   Low pct_lowusage                       |
-|         |                     |                                            |
-|         |                     | -   High pct_crucial                       |
-+---------+---------------------+--------------------------------------------+
-| 5       | Green               | -   High pct_lowusage                      |
-|         |                     |                                            |
-|         |                     | -   High pct_functional                    |
-+---------+---------------------+--------------------------------------------+
-| 6       | Light green         | -   Low to moderate pct_lowusage           |
-+---------+---------------------+--------------------------------------------+
-| 7       | Yellow              | -   Moderate pct_lowusage                  |
-|         |                     |                                            |
-|         |                     | -   Moderate pct_rural                     |
-|         |                     |                                            |
-|         |                     | -   Moderate pct_pay                       |
-+---------+---------------------+--------------------------------------------+
-| 8       | Orange              | -   Low pct_rural                          |
-+---------+---------------------+--------------------------------------------+
-| 9       | Pink                | -   Mostly moderate to high pct_functional |
-|         |                     |                                            |
-|         |                     | -   High pct_lowusage                      |
-|         |                     |                                            |
-|         |                     | -   Low pct_crucial                        |
-+---------+---------------------+--------------------------------------------+
++---------------+---------------------+--------------------------------------------+
+| Cluster       | Color on dendrogram | Summary of key characteristics             |
++===============+=====================+============================================+
+| 1             | Dark Pink           | -   Low pct_pay                            |
+|               |                     |                                            |
+|               |                     | -   High pct_crucial                       |
++---------------+---------------------+--------------------------------------------+
+| 2             | Purple              | -   Moderate to high pct_nonfunctional     |
+|               |                     |                                            |
+|               |                     | -   Low pct_functional                     |
++---------------+---------------------+--------------------------------------------+
+| 3             | Blue                | -   Moderate to high pct_nonfunctional     |
+|               |                     |                                            |
+|               |                     | -   Low pct_lowusage                       |
+|               |                     |                                            |
+|               |                     | -   High pct_crucial                       |
++---------------+---------------------+--------------------------------------------+
+| 4             | Dark green          | -   High pct_functional                    |
+|               |                     |                                            |
+|               |                     | -   Low pct_lowusage                       |
+|               |                     |                                            |
+|               |                     | -   High pct_crucial                       |
++---------------+---------------------+--------------------------------------------+
+| 5             | Green               | -   High pct_lowusage                      |
+|               |                     |                                            |
+|               |                     | -   High pct_functional                    |
++---------------+---------------------+--------------------------------------------+
+| 6             | Light green         | -   Low to moderate pct_lowusage           |
++---------------+---------------------+--------------------------------------------+
+| 7             | Yellow              | -   Moderate pct_lowusage                  |
+|               |                     |                                            |
+|               |                     | -   Moderate pct_rural                     |
+|               |                     |                                            |
+|               |                     | -   Moderate pct_pay                       |
++---------------+---------------------+--------------------------------------------+
+| 8             | Orange              | -   Low pct_rural                          |
++---------------+---------------------+--------------------------------------------+
+| 9             | Pink                | -   Mostly moderate to high pct_functional |
+|               |                     |                                            |
+|               |                     | -   High pct_lowusage                      |
+|               |                     |                                            |
+|               |                     | -   Low pct_crucial                        |
++---------------+---------------------+--------------------------------------------+
 
 From the analysis above, there is a distinction between each of the clusters. Hence, we will keep the clusters as 9.
 
@@ -845,17 +845,21 @@ To visualise the clusters, the *group* object needs to be appended onto the *nga
 
 -   *as.matrix()* transforms the `groups` list into a matrix;
 -   *cbind()* appends the `groups` matrix onto `nga_wp` simple features to produce an output that is a simple feature;
--   *rename()* is used to rename `as.matrix.groups.` field to CLUSTER
+-   *rename()* is used to rename `as.matrix.groups.` field to H_CLUSTER
 
 ```{r}
-nga_wp_hcluster <- cbind(nga_wp, as.matrix(groups)) %>%
+nga_wp <- cbind(nga_wp, as.matrix(groups)) 
+```
+
+```{r}
+nga_wp <- nga_wp%>%
   rename(`H_CLUSTER`=`as.matrix.groups.`)
 ```
 
 We will then use `qtm()` from tmap package to plot the choropleth map to show the clusters.
 
 ```{r}
-qtm(nga_wp_hcluster, "H_CLUSTER")+
+qtm(nga_wp, "H_CLUSTER")+
     tm_layout(main.title = "Hierarchical Clustering",
               main.title.size = 1.2,
               main.title.fontface = "bold",
@@ -868,7 +872,7 @@ The choropleth map above reveals that the clusters are very fragmented. This is 
 We can also get the summary for each cluster by the mean of each clustering variables as shown in the following code chunk:
 
 ```{r}
-nga_wp_hcluster %>% 
+nga_wp %>% 
     st_set_geometry(NULL) %>%
     group_by(H_CLUSTER) %>% 
     summarise_at(c(7,8,16,17,19,21:23), mean)
@@ -994,9 +998,9 @@ Finally, we can illustrate the clustering on the map.
 
 ```{r}
 groups_mat <- as.matrix(clust9$groups)
-nga_sf_spatialcluster <- cbind(nga_wp_hcluster, as.factor(groups_mat)) %>%
+nga_wp <- cbind(nga_wp, as.factor(groups_mat)) %>%
   rename(`Skater_CLUSTER`=`as.factor.groups_mat.`)
-qtm(nga_sf_spatialcluster, "Skater_CLUSTER")+
+qtm(nga_wp, "Skater_CLUSTER")+
     tm_layout(main.title = "SKATER Spatially Constrained Hierarchical Clustering",
               main.title.size = 1,
               main.title.fontface = "bold",
@@ -1007,18 +1011,16 @@ qtm(nga_sf_spatialcluster, "Skater_CLUSTER")+
 Likewise, we can get a summary of the water point attributes for each cluster using the following code chunk.
 
 ```{r}
-nga_sf_spatialcluster %>% 
+nga_wp %>% 
     st_set_geometry(NULL) %>%
     group_by(Skater_CLUSTER) %>% 
     summarise_at(c(7,8,16,17,19,21:23), mean)
 ```
 
-## 10 Spatially Const
-
 For easier comparison, we will plot both the hierarchical clustering and spatially constrained hierarchical clustering maps next to each other using the code chunk below.
 
 ```{r}
-hclust.map <- qtm(nga_wp_hcluster,
+hclust.map <- qtm(nga_wp,
                   "H_CLUSTER") + 
   tm_borders(alpha = 0.5) +
     tm_layout(main.title = "Hierarchical Clustering",
@@ -1027,7 +1029,7 @@ hclust.map <- qtm(nga_wp_hcluster,
               legend.width = 0.4,
               legend.height = 0.3)
 
-skclust.map <- qtm(nga_sf_spatialcluster,
+skclust.map <- qtm(nga_wp,
                    "Skater_CLUSTER") + 
   tm_borders(alpha = 0.5)+
     tm_layout(main.title = "SKATER Spatially Constrained Hierarchical Clustering",
@@ -1065,12 +1067,12 @@ groups <- as.factor(cutree(nongeo_cluster, k=9))
 ```
 
 ```{r}
-nga_sf_ngeo_cluster <- cbind(nga_wp, as.matrix(groups)) %>%
+nga_wp <- cbind(nga_wp, as.matrix(groups)) %>%
   rename(`ClustG_HCLUSTER` = `as.matrix.groups.`)
 ```
 
 ```{r}
-qtm(nga_sf_ngeo_cluster, "ClustG_HCLUSTER")+
+qtm(nga_wp, "ClustG_HCLUSTER")+
     tm_layout(main.title = "ClustGeo Hierarchical Clustering",
               main.title.size = 1.1,
               main.title.fontface = "bold",
@@ -1083,7 +1085,7 @@ Again, the choropleth map above reveals that the clusters formed by using hierar
 In the following code chunk, we get the summary of attribute means for each cluster.
 
 ```{r}
-nga_sf_ngeo_cluster %>% 
+nga_wp %>% 
     st_set_geometry(NULL) %>%
     group_by(ClustG_HCLUSTER) %>% 
     summarise_at(c(7,8,16,17,19,21:23), mean)
@@ -1131,14 +1133,14 @@ groups <- as.factor(cutree(clustG, k=9))
 We will then join back the group list with `nga_wp` polygon feature data frame by using the code chunk below.
 
 ```{r}
-nga_sf_Gcluster <- cbind(nga_wp, as.matrix(groups)) %>%
+nga_wp <- cbind(nga_wp, as.matrix(groups)) %>%
   rename(`ClustG_SPCLUSTER` = `as.matrix.groups.`)
 ```
 
 We can now plot the map of the newly delineated spatially constrained clusters.
 
 ```{r}
-qtm(nga_sf_Gcluster, "ClustG_SPCLUSTER")+
+qtm(nga_wp, "ClustG_SPCLUSTER")+
     tm_layout(main.title = "ClustGeo Spatially Constrained Hierarchical Clustering",
               main.title.size = 1,
               main.title.fontface = "bold",
@@ -1149,7 +1151,7 @@ qtm(nga_sf_Gcluster, "ClustG_SPCLUSTER")+
 In the following code chunk, we get the summary of attribute means for each cluster.
 
 ```{r}
-nga_sf_Gcluster %>% 
+nga_wp %>% 
     st_set_geometry(NULL) %>%
     group_by(ClustG_SPCLUSTER) %>% 
     summarise_at(c(7,8,16,17,19,21:23), mean)
@@ -1158,7 +1160,7 @@ nga_sf_Gcluster %>%
 Again, for easier comparison, we will plot both the hierarchical clustering and spatially constrained hierarchical clustering maps next to each other using the code chunk below.
 
 ```{r}
-Hclust.map <- qtm(nga_sf_ngeo_cluster,
+Hclust.map <- qtm(nga_wp,
                   "ClustG_HCLUSTER") + 
   tm_borders(alpha = 0.5) +
     tm_layout(main.title = "ClustGeo Hierarchical Clustering",
@@ -1167,7 +1169,7 @@ Hclust.map <- qtm(nga_sf_ngeo_cluster,
               legend.width = 0.4,
               legend.height = 0.3)
 
-Gclust.map <- qtm(nga_sf_Gcluster,
+Gclust.map <- qtm(nga_wp,
                    "ClustG_SPCLUSTER") + 
   tm_borders(alpha = 0.5)+
     tm_layout(main.title = "ClustGeo Spatially Constrained Hierarchical Clustering",
@@ -1230,9 +1232,9 @@ Again, we can derive the clusters and plot them on a choropleth.
 ```{r}
 clustG <- hclustgeo(proxmat, D1, alpha = 0.2)
 groups <- as.factor(cutree(clustG, k=9))
-nga_sf_ncluster <- cbind(nga_wp, as.matrix(groups)) %>%
+nga_wp <- cbind(nga_wp, as.matrix(groups)) %>%
   rename(`ClustG_NCLUSTER` = `as.matrix.groups.`)
-qtm(nga_sf_ncluster, "ClustG_NCLUSTER")+
+qtm(nga_wp, "ClustG_NCLUSTER")+
     tm_layout(main.title = "ClustGeo Neighbourhood Constrained Hierarchical Clustering",
               main.title.size = 1,
               main.title.fontface = "bold",
@@ -1243,7 +1245,7 @@ qtm(nga_sf_ncluster, "ClustG_NCLUSTER")+
 In the following code chunk, we get the summary of attribute means for each cluster.
 
 ```{r}
-nga_sf_ncluster %>% 
+nga_wp %>% 
     st_set_geometry(NULL) %>%
     group_by(ClustG_NCLUSTER) %>% 
     summarise_at(c(7,8,16,17,19,21:23), mean)
@@ -1252,7 +1254,7 @@ nga_sf_ncluster %>%
 We also want to compare the spatially constrained hierarchical clusters and the neighbourhood constrained hierarchical clusters.
 
 ```{r}
-Gclust.map <- qtm(nga_sf_Gcluster,
+Gclust.map <- qtm(nga_wp,
                   "ClustG_SPCLUSTER") + 
   tm_borders(alpha = 0.5) +
     tm_layout(main.title = "ClustGeo Spatially Constrained Clustering",
@@ -1261,7 +1263,7 @@ Gclust.map <- qtm(nga_sf_Gcluster,
               legend.width = 0.4,
               legend.height = 0.3)
 
-Nclust.map <- qtm(nga_sf_ncluster,
+Nclust.map <- qtm(nga_wp,
                    "ClustG_NCLUSTER") + 
   tm_borders(alpha = 0.5) +
     tm_layout(main.title="ClustGeo Neighbourhood Constrained Clustering",
@@ -1287,11 +1289,74 @@ tmap_arrange(skclust.map, Gclust.map, Nclust.map, hclust.map, Hclust.map,
              asp=NA, ncol=3)
 ```
 
-Comparing among the 3 spatially and neighbourhood constrained results, we can see that the SKATER spatially constrained hierarchical clustering gave the most geographically cohesive clusters, and followed by ClustGeo's neighbourhood constrained cluster.
+Comparing among the 3 spatially and neighbourhood constrained results, we can see that the SKATER spatially constrained hierarchical clustering gave the most geographically cohesive clusters, which is then followed by ClustGeo's neighbourhood constrained cluster.
 
-The results for hierarchical clustering are largely similar for both the hierarchical methods (hclust() and hclustgeo()). The only exception is at the most North West region where the LGAs are assigned to different clusters in the 2 methods.
+The results for hierarchical clustering are largely similar for both the hierarchical methods (`hclust()` and `hclustgeo()`). The only exception is at the most North West region where the LGAs are assigned to different clusters in the 2 methods.
 
 ### 11.1 Comparing spatially constrained and neighbourhood constrained hierarchical clusters
+
+```{r}
+cluster_summary <- nga_wp %>%
+    st_set_geometry(NULL) %>%
+  select("shapeName", "H_CLUSTER", "Skater_CLUSTER", "ClustG_HCLUSTER", "ClustG_SPCLUSTER", "ClustG_NCLUSTER")
+```
+
+s
+
+```{r}
+nga_wp.std <- tibble::rownames_to_column(nga_wp.std, "shapeName")
+cluster_summary <- merge(x=cluster_summary, y=nga_wp.std, 
+                         by.x="shapeName", by.y="shapeName")
+```
+
+s
+
+```{r fig.height = 15, fig.width=6}
+skmelted<- melt(cluster_summary[c(3,7:14)],id.vars="Skater_CLUSTER")
+SKCLUSTER <- ggplot(transform(skmelted,
+                    Skater_CLUSTER=factor(Skater_CLUSTER, 
+                                         levels=c(9,8,7,6,5,4,3,2,1))), 
+                    aes(x = value, y = variable)) + 
+     geom_boxplot()+facet_wrap(~Skater_CLUSTER,nrow = 9)
+
+SPmelted<- melt(cluster_summary[c(5,7:14)],id.vars="ClustG_SPCLUSTER")
+ClustG_SPCLUSTER <- ggplot(SPmelted, aes(x = value, y = variable)) + 
+     geom_boxplot()+facet_wrap(~ClustG_SPCLUSTER,nrow = 9)
+ 
+Nmelted<- melt(cluster_summary[c(6,7:14)],id.vars="ClustG_NCLUSTER")
+ClustG_NCLUSTER <- ggplot(Nmelted, aes(x = value, y = variable)) + 
+     geom_boxplot()+facet_wrap(~ClustG_NCLUSTER,nrow = 9)
+ 
+ggarrange(SKCLUSTER, ClustG_SPCLUSTER, ClustG_NCLUSTER, 
+          ncol = 3)
+```
+
+```{r, fig.height = 15, fig.width=6}
+labeller <- function(variable,value){
+  return(names[value])
+}
+
+names <- list("1" = "cLUSTER 1",
+            "2" = "cLUSTER 2",
+            "3" = "cLUSTER 3",
+            "4" = "cLUSTER 4",
+            "5" = "cLUSTER 5",
+            "6" = "cLUSTER 6",
+            "7" = "cLUSTER 7",
+            "8" = "cLUSTER 8",
+            "9" = "cLUSTER 9")
+
+skmelted<- melt(cluster_summary[c(3,7:14)],id.vars="Skater_CLUSTER")
+ggplot(transform(skmelted,
+                    Skater_CLUSTER=factor(Skater_CLUSTER, 
+                                         levels=c(9,8,7,6,5,4,3,2,1))), 
+                    aes(x = value, y = variable)) + 
+     geom_boxplot()+facet_wrap(~Skater_CLUSTER,
+                               labeller = labeller,
+                               nrow = 9)
+```
+
+s
 
 ## 12 References
 
