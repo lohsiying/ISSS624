@@ -31,28 +31,6 @@ The R packages needed for this exercise are as follows:
 pacman::p_load(sf, tidyverse, funModeling, blorr, corrplot, ggpubr, spdep, GWmodel, tmap, skimr, caret)
 ```
 
--   **sf** - Spatial data handling
-
--   **tidyverse**, including **readr**, **ggplot2**, and **dplyr** - Attribute data handling
-
--   **funModeling**
-
--   **blorr**
-
--   **corrplot**
-
--   **ggpubr**
-
--   **spdep**
-
--   **GWmodel**
-
--   **tmap** - choropleth mapping
-
--   **skimr**
-
--   **caret**
-
 ## 4 Importing the Analytical Data
 
 In the following code chunk, we will import *Osun.rds* and *Osun_wp_sf.rds* that have been previously tidied by using `read_rds()`. In *Osun.rds*, we have kept the geographical boundary for Osun state to allow for better plotting later.
@@ -287,7 +265,7 @@ CM
 
 When we compare the overall accuracy is now improved to 88.37% (geographically weighted) compared to the 67.39% that we obtained initially in the non-geographically weighted. In addition, the sensitivity improved from 72% to 86%. Also specificity improved from 62% to 90%. This implies we should apply a local strategy (looking at surrounding neighbours) instead of a global strategy to understand the factors for water points being functional or non-functional.
 
-(Note that for the global model, you can see the coefficients of each independent variable. But we do not see this for the local geographically weighted model because one model is built for each LGA, and hence there are over 4000+ of such coefficients for each variable).
+(Note that for the global model, you can see the coefficients of each independent variable. But we do not see this for the local geographically weighted model because one model is built for each state, and hence there are over 4000+ of such coefficients for each variable).
 
 ```{r}
 Osun_wp_sf_selected <- Osun_wp_sf_clean %>% 
@@ -302,7 +280,7 @@ gwr_sf.fixed <- cbind(Osun_wp_sf_selected, gwr.fixed)
 
 ### 8.4 Visualising gwLR
 
-The following code chunk below is used to create an interactive point symbol map.
+The following code chunk below is used to create an interactive point symbol map to compare the actual status of the water points against the status of the water points predicted by gwLR.
 
 ```{r}
 tmap_mode("view")
@@ -315,6 +293,12 @@ prob_T <- tm_shape(Osun)+
     tm_view(set.zoom.limits = c(8,14))
 prob_T
 ```
+
+In the following, we will visualise how the standard error of coefficient and t-value for the field *distance_to_tertiary_road* differs for the local models obtained for each LGA in Osun.
+
+The standard error of the coefficient measures how precisely the model estimates the coefficient's unknown value. The standard error of the coefficient is always positive.
+
+The smaller the standard error, the more precise the estimate. Dividing the coefficient by its standard error calculates a t-value.
 
 ```{r}
 tertiary_TV <- tm_shape(Osun)+
@@ -334,30 +318,27 @@ tertiary_SE <- tm_shape(Osun)+
 tmap_arrange(tertiary_SE, tertiary_TV, asp=1, ncol=2, sync=TRUE)
 ```
 
-## 9 Building Logistic Regression and Geographically Weighted Logistic Regression Models using only Statistically Significant Independent Variables 
+With reference to the plot on the left, we can see that the standard error of coefficient for *distance_to_tertiary_road* is generally low for all areas (as indicated by the yellow dots), with exception of dots in red colour, i.e. LGAs in Atakumosa East.
+
+## 9 Building Logistic Regression and Geographically Weighted Logistic Regression Models using only Statistically Significant Independent Variables
 
 In this section, we will only use independent variables that are statistically significant. Like before, we will build both logistic regression model and geographically weighted logistic regression model and then compare the 2 models.
 
-### 9.1 Logistic regression model 
+### 9.1 Logistic regression model
 
-In the following code check, we will use `glm` of R to calibrate a logistic regression model for the water point status. We will exclude fields that are not statistically significant, i.e. *local_population_1km* and *water_point_population*.
+In the following code check, we will use `glm` of R to calibrate a logistic regression model for the water point status. We will exclude fields that are not statistically significant, i.e. *distance_to_primary_road* and *distance_to_secondary_road*.
 
 ```{r}
-model_sig <- glm(status ~ distance_to_primary_road+
-                       distance_to_secondary_road+
-                       distance_to_tertiary_road+
+model_sig <- glm(status ~ distance_to_tertiary_road+
                        distance_to_city+
                        distance_to_town+
                        is_urban+
                        usage_capacity+
-                       water_source_clean,
+                       water_source_clean+
+                       water_point_population+
+                       local_population_1km,
                    data = Osun_wp_sf_clean,
                    family = binomial(link = 'logit'))
-```
-
-We will then use `blr_regress()` from [**blorr**](https://blorr.rsquaredacademy.com/) package to generate a report for the model results.
-
-```{r}
 blr_regress(model_sig)
 ```
 
@@ -367,42 +348,42 @@ We can see that all independent variables used to build this model are statistic
 blr_confusion_matrix(model_sig, cutoff = 0.5)
 ```
 
-We can also see that our accuracy is approximately 60%. The sensitivity is higher than the specificity, indicating that our true positive is higher (correctly determined approximately 75% true positive) than the true negative (model correctly determines approximately 41% true negative).
+We can also see that our accuracy is approximately 67%. The sensitivity is also higher than the specificity, indicating that our true positive is higher (model has correctly determined approximately 72% true positive) than the true negative (model correctly determines approximately 61% true negative).
 
 ### 9.2 Geographically weighted logistic regression model (with fixed bandwidth)
 
 #### 9.2.1 Converting from sf to sp data frame
 
-We will first convert the data to a SpatialPointsDataFrame data type for compatibility with subsequent packages. In here, we have also excluded fields that are not statistically significant, i.e. *local_population_1km* and *water_point_population*.
+We will first convert the data to a SpatialPointsDataFrame data type for compatibility with subsequent packages. In here, we have also excluded fields that are not statistically significant, i.e. *distance_to_primary_road* and *distance_to_secondary_road*.
 
 ```{r}
 Osun_wp_sp_sig <- Osun_wp_sf_clean %>% 
     select(c(status,
-             distance_to_primary_road,
-             distance_to_secondary_road,
              distance_to_tertiary_road,
              distance_to_city,
              distance_to_town,
              is_urban,
              usage_capacity,
-             water_source_clean)) %>% 
+             water_source_clean,
+             water_point_population,
+             local_population_1km)) %>% 
     as_Spatial()
 Osun_wp_sp_sig
 ```
 
-#### 9.2.2 Computing fixed bandwidth 
+#### 9.2.2 Computing fixed bandwidth
 
 Here, we will compute the fixed bandwidth that we will use to build the geographically weighted logistic regression model.
 
 ```{r}
-bw.fixed.sig <- bw.ggwr(status ~ distance_to_primary_road+
-                           distance_to_secondary_road+
-                           distance_to_tertiary_road+
-                           distance_to_city+
-                           distance_to_town+
-                           is_urban+
-                           usage_capacity+
-                           water_source_clean,
+bw.fixed.sig <- bw.ggwr(status ~ distance_to_tertiary_road+
+                       distance_to_city+
+                       distance_to_town+
+                       is_urban+
+                       usage_capacity+
+                       water_source_clean+
+                       water_point_population+
+                       local_population_1km,
                    data = Osun_wp_sp_sig,
                    family = "binomial",
                    approach = "AIC",
@@ -415,34 +396,31 @@ bw.fixed.sig <- bw.ggwr(status ~ distance_to_primary_road+
 bw.fixed.sig
 ```
 
-We obtain a fixed bandwidth of 7133.645 m (projection in Nigeria is in metres), which is approximately 7.1 km.
+We obtain a fixed bandwidth of 2377.371 m (projection in Nigeria is in metres), which is approximately 2.4 km.
 
 #### 9.2.3 Building fixed bandwidth model
 
+Next, we will build a geographically weighted logistic regression model using the fixed bandwidth determined in the previous section.
+
 ```{r}
-gwlr.fixed.sig <- ggwr.basic(status ~ distance_to_primary_road+
-                           distance_to_secondary_road+
-                           distance_to_tertiary_road+
-                           distance_to_city+
-                           distance_to_town+
-                           is_urban+
-                           usage_capacity+
-                           water_source_clean+
-                           water_point_population+
-                           local_population_1km,
+gwlr.fixed.sig <- ggwr.basic(status ~ distance_to_tertiary_road+
+                       distance_to_city+
+                       distance_to_town+
+                       is_urban+
+                       usage_capacity+
+                       water_source_clean+
+                       water_point_population+
+                       local_population_1km,
                    data = Osun_wp_sp,
                    bw = bw.fixed.sig,
                    family = "binomial",
                    kernel = "gaussian",
                    adaptive = FALSE,
                    longlat = FALSE)
-```
-
-```{r}
 gwlr.fixed.sig
 ```
 
-From the results, we can see that the Geographically Weighted Regression model has a lower AIC compared to the Generalised Linear Regression (5077.937 for gwLR vs 6351 for generalised LR). This tells us that Geographically Weighted Regression model has improved explainability.
+From the results, we can see that the Geographically Weighted Regression model has a lower AIC (i.e. 4418.776) compared to the Generalised Linear Regression (AIC = 5708.9). This tells us that Geographically Weighted Regression model has improved explainability.
 
 ### 9.3 Model Assessment
 
@@ -460,7 +438,7 @@ gwr.fixed.sig <- gwr.fixed.sig %>%
         gwr.fixed.sig$yhat >= 0.5, T, F))
 ```
 
-We will use `confusionMatrix()` from **caret** package to generate the confusion matrix. We define *data* argument to be the predicted probability and *reference* argument to be the actual label (i.e. ground truth).
+We will use `confusionMatrix()` from **caret** package to generate the confusion matrix.
 
 ```{r}
 gwr.fixed.sig$y <- as.factor(gwr.fixed.sig$y)
@@ -469,7 +447,7 @@ CM <- confusionMatrix(data=gwr.fixed.sig$most, reference = gwr.fixed.sig$y)
 CM
 ```
 
-When we compare the overall accuracy is now improved to 75.95% (geographically weighted) compared to the 59.95% that we obtained initially in the non-geographically weighted logistic regression model. In addition, we also noted that specificity increased significantly from 41% to 80%, although a slight decrease in sensitivity from 75% to 71% was observed. Nonetheless, the gwLR model has improved explainability compared to the generalised LR model. This implies we should apply a local strategy (looking at surrounding neighbours) instead of a global strategy to understand the factors for water points being functional or non-functional.
+When we compare the overall accuracy is now improved to 88.46% (geographically weighted) compared to the 67.26% that we obtained initially in the non-geographically weighted logistic regression model. In addition, we also noted that both sensitivity and specificity increased significantly from 71.88% to 86.71% and 61.49% to 89.86% respectively. This implies we should apply a local strategy (i.e. gwLR - looking at surrounding neighbours) instead of a global strategy to understand the factors for water points being functional or non-functional.
 
 ### 9.4 Visualising gwLR
 
@@ -488,6 +466,8 @@ prob_T <- tm_shape(Osun)+
 prob_T
 ```
 
+Likewise, we will visualise how the standard error of coefficient and t-value for the field *distance_to_tertiary_road* differs for the local models obtained for each state in Osun.
+
 ```{r}
 tertiary_TV <- tm_shape(Osun)+
     tm_polygons(alpha=0.1)+
@@ -506,4 +486,4 @@ tertiary_SE <- tm_shape(Osun)+
 tmap_arrange(tertiary_SE, tertiary_TV, asp=1, ncol=2, sync=TRUE)
 ```
 
-## 
+With reference to the plot for standard error of coefficient, we can see that standard error of coefficient is generally low for all states (as indicated by pale yellow dots). However, we can see that for several water points in Aiyadade, the local model has a high standard error of coefficient for *distance_to_tertiary_road*. We can also observe from Section 8.4 and the plot here, that the gwLR model generated in section 8 and section 9 gives different local performance.
