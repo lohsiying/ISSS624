@@ -42,7 +42,7 @@ Osun_wp_sf <- read_rds("rds/Osun_wp_sf.rds")
 
 We check our independent variable i.e. *status* by running the following code chunk. We can see that it is a binary data - *TRUE* representing functional water points and *FALSE* representing non-functional water points. We can see that there are 55.5% functional water points and 44.5% non-functional water points.
 
-```{r}
+```{r fig.height = 2, fig.width = 4}
 Osun_wp_sf %>% 
     freq(input = 'status')
 ```
@@ -151,7 +151,7 @@ In the code chunk below, `blr_confusion_matrix()` from **blorr** package to prep
 blr_confusion_matrix(model, cutoff = 0.5)
 ```
 
-We can also see that our accruracy is approximately 67.4%. The sensitivity is higher than the specificity, indicating that our true positive is higher (correctly determined approximately 72% true positive) than the true negative (model correctly determines approximately 62% true negative).
+We can also see that our accuracy is approximately 67.4%. The sensitivity is higher than the specificity, indicating that our true positive is higher (correctly determined approximately 72% true positive) than the true negative (model correctly determines approximately 62% true negative).
 
 ## 8 Building Geographically Weighted Logistic Regression (gwLR) Models
 
@@ -294,7 +294,45 @@ prob_T <- tm_shape(Osun)+
 prob_T
 ```
 
-In the following, we will visualise how the standard error of coefficient and t-value for the field *distance_to_tertiary_road* differs for the local models obtained for each LGA in Osun.
+Similar to generating the confusion matrix earlier, in here, we will define cutoff = 0.5, this means that if the yhat is greater than 0.5, we will label the water point as functional, and if the yhat determined is less than 0.5, we will label the water point as non-functional.
+
+In the following code chunk, we will create 2 columns in *gwr_sf.fixed*: predicted - specifying whether the model predicts the water point as functional or not, and misclassified - specifying whether the predicted status is different from the actual status.
+
+```{r}
+gwr_sf.fixed <- gwr_sf.fixed %>% 
+    mutate(predicted = ifelse(gwr_sf.fixed$yhat >= 0.5, T, F)) 
+gwr_sf.fixed <- gwr_sf.fixed %>% 
+    mutate(misclassified = ifelse(gwr_sf.fixed$predicted == gwr_sf.fixed$status, F, T))
+```
+
+Next, we will generate 2 plots - one showing the actual status (ground truth), and another showing the prediction only for water points that have been misclassified when a cutoff of 0.5 is used.
+
+```{r}
+predicted <- tm_shape(Osun)+
+    tm_polygons(alpha = 0.1)+
+    tm_shape(gwr_sf.fixed)+
+    tm_dots(col = "status",
+            alpha = 0.6)+
+    tm_view(set.zoom.limits = c(8,14))+
+    tm_layout(title = "All wp status")
+
+misclassified_only <- gwr_sf.fixed %>% 
+    filter(misclassified == T)
+
+misclassified <- tm_shape(Osun)+
+    tm_polygons(alpha = 0.1)+
+    tm_shape(misclassified_only)+
+    tm_dots(col = "predicted",
+            alpha = 0.6)+
+    tm_view(set.zoom.limits = c(8,14))+
+    tm_layout(title = "Misclassified wp only")
+
+tmap_arrange(predicted, misclassified, asp=1, ncol=2, sync=TRUE)
+```
+
+Visually, we can see that Ejigbo has more misclassified waterpoints and it is more likely that non-functional water points (status = FALSE) is incorrectly classified as functional water points (predicted = TRUE) in Ejigbo.
+
+Next, we will visualise how the standard error of coefficient and t-value for the field *distance_to_tertiary_road* differs for the local models obtained for each LGA in Osun.
 
 The standard error of the coefficient measures how precisely the model estimates the coefficient's unknown value. The standard error of the coefficient is always positive.
 
@@ -319,6 +357,19 @@ tmap_arrange(tertiary_SE, tertiary_TV, asp=1, ncol=2, sync=TRUE)
 ```
 
 With reference to the plot on the left, we can see that the standard error of coefficient for *distance_to_tertiary_road* is generally low for all areas (as indicated by the yellow dots), with exception of dots in red colour, i.e. LGAs in Atakumosa East.
+
+Furthermore, we can visualise for which water points are the coefficient for *distance_to_tertiary_road* statistically significant. We define statistically significant as p-value \< 0.05 which corresponds to t-value lower than -1.96 or higher than 1.96.
+
+We first filter to get water points that have coefficient for *distance_to_tertiary_road* as statistically significant.
+
+```{r}
+statistically_sig <- gwr_sf.fixed %>% 
+    filter(distance_to_tertiary_road_TV < -1.96 |
+           distance_to_tertiary_road_TV > 1.96)
+nrow(statistically_sig)
+```
+
+However, from the results above, we can see that there is no water point that has a statistically significant coefficient for *distance_to_tertiary_road*.
 
 ## 9 Building Logistic Regression and Geographically Weighted Logistic Regression Models using only Statistically Significant Independent Variables
 
@@ -487,3 +538,20 @@ tmap_arrange(tertiary_SE, tertiary_TV, asp=1, ncol=2, sync=TRUE)
 ```
 
 With reference to the plot for standard error of coefficient, we can see that standard error of coefficient is generally low for all states (as indicated by pale yellow dots). However, we can see that for several water points in Aiyadade, the local model has a high standard error of coefficient for *distance_to_tertiary_road*. We can also observe from Section 8.4 and the plot here, that the gwLR model generated in section 8 and section 9 gives different local performance.
+
+Lastly, we will visualise the geographical location of the water points whereby the coefficient for *distance_to_tertiary_road* is statistically significant. Likewise before, we will filter for water points that have t-values for *distance_to_tertiary_road* that are less than -1.96 or greater than 1.96.
+
+```{r}
+statistically_sig <- gwr_sf.fixed.sig %>% 
+    filter(distance_to_tertiary_road_TV < -1.96 |
+           distance_to_tertiary_road_TV > 1.96)
+tm_shape(Osun)+
+    tm_polygons(alpha=0.1)+
+    tm_shape(statistically_sig)+
+    tm_dots(col="distance_to_tertiary_road_TV",
+            border.col="gray60",
+            border.lwd = 1)+
+    tm_view(set.zoom.limits = c(8,14))
+```
+
+From the plot above, we can see that the coefficient for *distance_to_tertiary_road* is only statistically significant for 5 water points in Ife South.
